@@ -6,7 +6,11 @@
 
 3. Download Maven, refer to [this](https://maven.apache.org/install.html) for the steps (version 3.9.9)
 
-4. Clone the repository with the command 'git clone https://github.com/Explement/r6-roulette' 
+4. Clone the repository with the command
+
+```bash
+git clone https://github.com/Explement/r6-roulette
+```
 
 5. Without building the repository into a .jar file, you can run it with the following commands:
 
