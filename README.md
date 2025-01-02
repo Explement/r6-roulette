@@ -1,7 +1,7 @@
 # Installation
 
 1. Download the JDK
-2. Download JavaFX, refer to (this)[https://openjfx.io/openjfx-docs/] for the steps
+2. Download JavaFX, refer to ([this](https://openjfx.io/openjfx-docs/)) for the steps
 3. Clone the project, and set it up
 
 # Overview
