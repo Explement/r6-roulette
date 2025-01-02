@@ -6,7 +6,7 @@
 
 3. Download Maven, refer to [this](https://maven.apache.org/install.html) for the steps (version 3.9.9)
 
-4. Clone the repository with the command
+4. Clone the repository with the following command:
 
 ```bash
 git clone https://github.com/Explement/r6-roulette
