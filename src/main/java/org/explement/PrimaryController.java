@@ -106,6 +106,7 @@ public class PrimaryController implements Initializable {
         defQuotes.put("PULSE", "Heartbeat detected".toUpperCase());        
 
         atkQuotes.put("RAM", "Breacher coming in hot".toUpperCase());
+        atkQuotes.put("RAUORA", "Barrier set, let's move".toUpperCase());  
         defQuotes.put("ROOK", "Time for some serious protection".toUpperCase());
 
         atkQuotes.put("SENS", "R.O.U projector deployed".toUpperCase());
@@ -114,7 +115,7 @@ public class PrimaryController implements Initializable {
         defQuotes.put("SKOPOS", "Healings not going to work".toUpperCase());
         atkQuotes.put("SLEDGE", "Time to break stuff".toUpperCase());
         defQuotes.put("SMOKE", "Poison cloud ready".toUpperCase());
-        atkQuotes.put("SOLIS", "Eyes on the prize".toUpperCase());
+        defQuotes.put("SOLIS", "Eyes on the prize".toUpperCase());
         atkQuotes.put("STRIKER", "We will win this".toUpperCase());        
 
         defQuotes.put("TACHANKA", "LMG MOUNTED AND LOADED".toUpperCase());
@@ -137,13 +138,13 @@ public class PrimaryController implements Initializable {
         atkQuotes.put("ZOFIA", "Time for action".toUpperCase());        
 
         //*  Handle configuration warnings
-        if (Configuration.roll && Configuration.rollTime == 0) System.out.println("WARNING: 'Configuration.rollTime' IS SET TO 0, 'Configuration.roll' STATE DOES NOT MATTER");
-        if (Configuration.rollTime < 0) System.out.println("WARNING: 'Configuration.rollTime' IS SET TO A NEGATIVE VALUE, THIS WILL CAUSE SCRIPT TO NOT BEHAVE AS INTENDED");
-        if (Configuration.debug) System.out.println("WARNING: DEBUG MODE ENABLED"); 
+        if (Configuration.ROLL && Configuration.ROLL_TIME == 0) System.out.println("WARNING: 'Configuration.rollTime' IS SET TO 0, 'Configuration.roll' STATE DOES NOT MATTER");
+        if (Configuration.ROLL_TIME < 0) System.out.println("WARNING: 'Configuration.rollTime' IS SET TO A NEGATIVE VALUE, THIS WILL CAUSE SCRIPT TO NOT BEHAVE AS INTENDED");
+        if (Configuration.DEBUG_MODE) System.out.println("WARNING: DEBUG MODE ENABLED"); 
     }
 
     public void selectDefender() { // Select defender
-        if (Configuration.roll) { // If roll is enabled
+        if (Configuration.ROLL) { // If roll is enabled
             Timer timer = new Timer();
 
             TimerTask pickOp = new TimerTask() {
@@ -160,7 +161,7 @@ public class PrimaryController implements Initializable {
                     attackerRollButton.setDisable(false);
                     defenderRollButton.setDisable(false);
 
-                    if (Configuration.debug) System.out.println("Stopped");
+                    if (Configuration.DEBUG_MODE) System.out.println("Stopped");
                 }
             };
 
@@ -172,17 +173,17 @@ public class PrimaryController implements Initializable {
                 timer.cancel();
             });
 
-            if (Configuration.delayOperatorSelection) timer.scheduleAtFixedRate(pickOp, 0l, (long) clamp(Configuration.operatorSelectionDelay, 10, Configuration.rollTime));
+            if (Configuration.DELAY_OPERATOR_SELECTION) timer.scheduleAtFixedRate(pickOp, 0l, (long) clamp(Configuration.OPERATOR_SELECTION_DELAY, 10, Configuration.ROLL_TIME));
             else timer.scheduleAtFixedRate(pickOp, 0, 100);
 
-            timer.schedule(stopPick, Configuration.rollTime);
+            timer.schedule(stopPick, Configuration.ROLL_TIME);
         } else { // If roll is disabled
             pickOperator(true);
         }
     }
 
     public void selectAttacker() { // Select attacker
-        if (Configuration.roll) { // If roll is enabled
+        if (Configuration.ROLL) { // If roll is enabled
             Timer timer = new Timer();
 
             TimerTask pickOp = new TimerTask() {
@@ -199,7 +200,7 @@ public class PrimaryController implements Initializable {
                     attackerRollButton.setDisable(false);
                     defenderRollButton.setDisable(false);
 
-                    if (Configuration.debug) System.out.println("Stopped");
+                    if (Configuration.DEBUG_MODE) System.out.println("Stopped");
                 }
             };
 
@@ -211,10 +212,10 @@ public class PrimaryController implements Initializable {
                 timer.cancel();
             });
             
-            if (Configuration.delayOperatorSelection) timer.scheduleAtFixedRate(pickOp, 0l, (long) clamp(Configuration.operatorSelectionDelay, 10, Configuration.rollTime));
+            if (Configuration.DELAY_OPERATOR_SELECTION) timer.scheduleAtFixedRate(pickOp, 0l, (long) clamp(Configuration.OPERATOR_SELECTION_DELAY, 10, Configuration.ROLL_TIME));
             else timer.scheduleAtFixedRate(pickOp, 0, 100);
 
-            timer.schedule(stopPick, Configuration.rollTime);
+            timer.schedule(stopPick, Configuration.ROLL_TIME);
         } else { // If roll is disabled
             pickOperator(false);
         }
@@ -225,7 +226,7 @@ public class PrimaryController implements Initializable {
     }
 
     public void pickOperator(boolean isDefender) { // Pick operator
-        if (Configuration.mergeHashMaps) { // Both attack and defense
+        if (Configuration.MERGE_HASH_MAPS) { // Both attack and defense
             HashMap<String, String> merged = new HashMap<String, String>();
             merged.putAll(atkQuotes);
             merged.putAll(defQuotes);
@@ -247,7 +248,7 @@ public class PrimaryController implements Initializable {
     
             for (String key : merged.keySet()) {
                 if (i == opIndex) {
-                    if (Configuration.debug) System.out.println(key);
+                    if (Configuration.DEBUG_MODE) System.out.println(key);
                     Platform.runLater(() -> {
                         operatorName.setText(key);
                         operatorQuote.setText("\"" + merged.get(key) + "\"");
@@ -260,7 +261,7 @@ public class PrimaryController implements Initializable {
                 i++;
             }
     
-            if (Configuration.debug) System.out.println("ID: " + opIndex);
+            if (Configuration.DEBUG_MODE) System.out.println("ID: " + opIndex);
         } else if (!isDefender) { // Attacker
             Random rand_op = new Random();
         
@@ -279,7 +280,7 @@ public class PrimaryController implements Initializable {
     
             for (String key : atkQuotes.keySet()) {
                 if (i == opIndex) {
-                    if (Configuration.debug) System.out.println(key);
+                    if (Configuration.DEBUG_MODE) System.out.println(key);
                     Platform.runLater(() -> {
                         operatorName.setText(key);
                         operatorQuote.setText("\"" + atkQuotes.get(key) + "\"");
@@ -292,7 +293,7 @@ public class PrimaryController implements Initializable {
                 i++;
             }
     
-            if (Configuration.debug) System.out.println("ID: " + opIndex);
+            if (Configuration.DEBUG_MODE) System.out.println("ID: " + opIndex);
         } else { // Defender
             Random rand_op = new Random();
         
@@ -311,7 +312,7 @@ public class PrimaryController implements Initializable {
     
             for (String key : defQuotes.keySet()) {
                 if (i == opIndex) {
-                    if (Configuration.debug) System.out.println(key);
+                    if (Configuration.DEBUG_MODE) System.out.println(key);
                     Platform.runLater(() -> {
                         operatorName.setText(key);
                         operatorQuote.setText("\"" + defQuotes.get(key) + "\"");
@@ -324,7 +325,7 @@ public class PrimaryController implements Initializable {
                 i++;
             }
     
-            if (Configuration.debug) System.out.println("ID: " + opIndex);
+            if (Configuration.DEBUG_MODE) System.out.println("ID: " + opIndex);
         }
     }
 }
